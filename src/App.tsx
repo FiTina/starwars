@@ -34,6 +34,7 @@ function App() {
 
     async function fetchCharacters() {
         //concurrently fetch the character information
+        //the star wars api only returns the first 10 elements if the /people endpoint is called without the index
         const promises = [];
         for (let i = 1; i <= FETCH_COUNT; i++) {
             promises.push(
