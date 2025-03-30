@@ -56,7 +56,7 @@ function App() {
         //once all info is retrieved, set it for further use and cache it
         const resultsMap = new Map<String, Character>();
         results
-            .filter(character => character != null)
+            .filter(character => character != null && character.name != null)
             .map(character => resultsMap.set(character.name, character));
         setCharacters(resultsMap);
         localStorage.setItem(CACHED_CHARACTERS_KEY, JSON.stringify(Object.fromEntries(resultsMap)));
