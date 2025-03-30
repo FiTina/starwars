@@ -33,6 +33,36 @@ function App() {
         }
     }, []);
 
+    const [text, setText] = useState("");
+    const[showImage, setShowImage] = useState(true);
+    useEffect(() => {
+        setTimeout(() => {
+            setShowImage(false);
+            setText("Loaded")}, 3000)
+    }, []);
+
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetchCharacters().then(() => setLoading(false));
+    }, []);
+
+    return (
+        <>
+            {loading ? (
+                <div className="loader-container">
+                    <h3>Loading...</h3>
+                    <img className="loader" src="/Bean Eater@1x-1.0s-200px-200px.svg" alt="loader" />
+                </div>
+            ) : (
+                <div className="App">
+                    <Navbar />
+                    <Container characters={characters} displayedNames={displayedCharacterNames} />
+                </div>
+            )}
+        </>
+    );
+
     async function fetchCharacters() {
         //concurrently fetch the character information
         //the star wars api only returns the first 10 elements if the /people endpoint is called without the index
