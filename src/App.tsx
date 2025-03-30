@@ -15,6 +15,7 @@ const FETCH_COUNT = 23
 function App() {
 
     //uncomment this to reset the local storage.
+    //I suggest using private/incognito mode, that will keep the cache on refresh, but will delete it by reopening the window.
     //N.B.: until commented again, the saved changes will be lost after refresh!
     // localStorage.clear();
 
