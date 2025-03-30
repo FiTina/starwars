@@ -13,11 +13,10 @@ const Container: React.FC<ContainerProps> = ({ data , displayed}) => {
     const [displayedCharacters, setDisplayedCharacters] = useState<Character[]>([]);
 
     useEffect(() => {
-        if (data.size > 0 && displayedCharacters.length === 0) {
-            displayed.map(c => data.get(c)!!)
+        if (displayedCharacters.length === 0) {
             setDisplayedCharacters(displayed.map(c => data.get(c)!!));
         }
-    }, [data]);
+    }, [displayedCharacters.length, displayed, data]);
 
     const changeDisplayedCharacters = (newCharacter: Character, windowIndex: number) => {
         const updatedCharacters = [...displayedCharacters];

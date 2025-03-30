@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {Character} from "./Character";
 import {createPortal} from "react-dom"; //to fix overlay rendering
+import { CACHED_CHARACTERS_KEY, DISPLAYED_CHARACTERS_KEY } from './Constants';
 
 interface PopupEditProps {
     characters: Map<String, Character>;
@@ -43,9 +44,9 @@ const PopupEdit: React.FC<PopupEditProps> = ({characters, onCharacterChange, sel
         }
         characters.set(editedCharacter!!.name, editedCharacter!!)
         const json = JSON.stringify(Object.fromEntries(characters));
-        localStorage.setItem("characters", json);
+        localStorage.setItem(CACHED_CHARACTERS_KEY, json);
         displayedCharacters[windowIndex] = editedCharacter!!.name
-        localStorage.setItem("displayedCharacters", JSON.stringify(displayedCharacters));
+        localStorage.setItem(DISPLAYED_CHARACTERS_KEY, JSON.stringify(displayedCharacters));
     };
 
     useEffect(() => {

@@ -1,11 +1,14 @@
+// noinspection JSIgnoredPromiseFromCall
+
 import React, {useEffect, useState} from 'react';
 import Navbar from "./components/Navbar";
 import Container from "./components/Container";
 import './App.css';
 import {Character} from "./components/Character";
+import { CACHED_CHARACTERS_KEY, DISPLAYED_CHARACTERS_KEY } from './components/Constants';
 
-const CHARACTERS_KEY = "characters";
-const DISPLAYED_CHARACTERS_KEY = "displayedCharacters";
+
+
 const FETCH_COUNT = 23
 
 
@@ -13,23 +16,24 @@ function App() {
 
     //uncomment this to reset the local storage.
     //N.B.: until commented again, the saved changes will be lost after refresh!
-    // localStorage.clear();
+    localStorage.clear();
 
     const [characters, setCharacters] = useState<Map<String, Character>>(new Map<String, Character>());
     const [displayedCharacters, setDisplayedCharacters] = useState<String[]>([]);
 
     useEffect(() => {
-        const storedCharacters = localStorage.getItem(CHARACTERS_KEY);
-        let displayed = localStorage.getItem(DISPLAYED_CHARACTERS_KEY)!!;
-        if (storedCharacters && displayed) {
-            setCharacters(new Map(Object.entries(JSON.parse(storedCharacters))));
-            setDisplayedCharacters(JSON.parse(displayed))
+        const cachedCharacters = localStorage.getItem(CACHED_CHARACTERS_KEY);
+        const displayedCharacterNames = localStorage.getItem(DISPLAYED_CHARACTERS_KEY);
+        if (cachedCharacters && displayedCharacterNames) {
+            setCharacters(new Map(Object.entries(JSON.parse(cachedCharacters))));
+            setDisplayedCharacters(JSON.parse(displayedCharacterNames))
         } else {
             fetchCharacters();
         }
     }, []);
 
     async function fetchCharacters() {
+        //concurrently fetch the character information
         const promises = [];
         for (let i = 1; i <= FETCH_COUNT; i++) {
             promises.push(
@@ -45,15 +49,17 @@ function App() {
                     })
             );
         }
-        let results = await Promise.all(promises);
+        const results = await Promise.all(promises);
 
-        let resultsMap = new Map<String, Character>();
-        results.filter(a => a != null).map(c => resultsMap.set(c.name, c));
-
+        //once all info is retrieved, cache it for further use
+        const resultsMap = new Map<String, Character>();
+        results
+            .filter(character => character != null)
+            .map(character => resultsMap.set(character.name, character));
         setCharacters(resultsMap);
-        localStorage.setItem(CHARACTERS_KEY, JSON.stringify(Object.fromEntries(resultsMap)));
+        localStorage.setItem(CACHED_CHARACTERS_KEY, JSON.stringify(Object.fromEntries(resultsMap)));
 
-        let displayedNames = ["Yoda", "Darth Vader", "Obi-Wan Kenobi"];
+        const displayedNames = ["Yoda", "Darth Vader", "Obi-Wan Kenobi"];
         setDisplayedCharacters(displayedNames)
         localStorage.setItem(DISPLAYED_CHARACTERS_KEY, JSON.stringify(displayedNames));
     }
