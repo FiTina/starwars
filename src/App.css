@@ -1,3 +1,23 @@
+ul {
+  padding-bottom: 20px;
+  padding-left: 0 !important;
+  text-align: left;
+}
+
+input {
+  width: 100%;
+  height: 40px;
+  margin: 5px 0 !important;
+  border-radius: 5px;
+}
+
+select {
+  width: 100%;
+  height: 40px;
+  margin: 5px 0 10px 0 !important;
+  border-radius: 5px;
+}
+
 .App {
   min-height: 100vh;
   display: flex;
@@ -22,6 +42,9 @@
   color: white !important;
 }
 
+.navbar-toggler {
+  background-color: #E3D61D !important;
+}
 
 
 .navMenu {
@@ -49,17 +72,6 @@
   width: 300px;
 }
 
-@media only screen and (min-width: 992px) {
-#navbarNav{
-  display: none !important;
-}
-}
-
-ul {
-  padding-bottom: 20px;
-  padding-left: 0 !important;
-  text-align: left;
-}
 
 .container {
   min-height: 80vh;
@@ -163,11 +175,17 @@ ul {
   opacity: 80%;
 }
 
+.popup label {
+  text-align: left;
+  display: block;
+}
+
 .form-container {
   display: grid;
-  grid-template-columns: 1fr 3fr; /* 2 columns */
-  gap: 10px; /* Adds space between form fields */
-  align-items: center; /* Ensures labels and inputs are aligned properly */
+  grid-template-columns: 1fr 3fr;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .form-container label {
@@ -183,6 +201,13 @@ ul {
   border-radius: 4px;
 }
 
+
+@media only screen and (min-width: 992px) {
+  #navbarNav{
+    display: none !important;
+  }
+}
+
 /* Adjust layout for mobile devices */
 @media (max-width: 600px) {
   .popup {
@@ -190,24 +215,4 @@ ul {
     left: 0;
     padding: 20px;
   }
-}
-
-
-input {
-  width: 100%;
-  height: 40px;
-  margin: 5px 0 !important;
-  border-radius: 5px;
-}
-
-select {
-  width: 100%;
-  height: 40px;
-  margin: 5px 0 10px 0 !important;
-  border-radius: 5px;
-}
-
-.popup label {
-  text-align: left;
-  display: block;
 }
