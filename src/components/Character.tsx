@@ -1,5 +1,3 @@
-import React from "react";
-
 export interface Character {
     url: string;
     count: number;
