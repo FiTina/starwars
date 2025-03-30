@@ -16,17 +16,17 @@ function App() {
 
     //uncomment this to reset the local storage.
     //N.B.: until commented again, the saved changes will be lost after refresh!
-    localStorage.clear();
+    // localStorage.clear();
 
     const [characters, setCharacters] = useState<Map<String, Character>>(new Map<String, Character>());
-    const [displayedCharacters, setDisplayedCharacters] = useState<String[]>([]);
+    const [displayedCharacterNames, setDisplayedCharacterNames] = useState<String[]>([]);
 
     useEffect(() => {
         const cachedCharacters = localStorage.getItem(CACHED_CHARACTERS_KEY);
         const displayedCharacterNames = localStorage.getItem(DISPLAYED_CHARACTERS_KEY);
         if (cachedCharacters && displayedCharacterNames) {
             setCharacters(new Map(Object.entries(JSON.parse(cachedCharacters))));
-            setDisplayedCharacters(JSON.parse(displayedCharacterNames))
+            setDisplayedCharacterNames(JSON.parse(displayedCharacterNames))
         } else {
             fetchCharacters();
         }
@@ -51,7 +51,7 @@ function App() {
         }
         const results = await Promise.all(promises);
 
-        //once all info is retrieved, cache it for further use
+        //once all info is retrieved, set it for further use and cache it
         const resultsMap = new Map<String, Character>();
         results
             .filter(character => character != null)
@@ -60,7 +60,7 @@ function App() {
         localStorage.setItem(CACHED_CHARACTERS_KEY, JSON.stringify(Object.fromEntries(resultsMap)));
 
         const displayedNames = ["Yoda", "Darth Vader", "Obi-Wan Kenobi"];
-        setDisplayedCharacters(displayedNames)
+        setDisplayedCharacterNames(displayedNames)
         localStorage.setItem(DISPLAYED_CHARACTERS_KEY, JSON.stringify(displayedNames));
     }
 
@@ -69,7 +69,7 @@ function App() {
     return (
         <div className="App">
             <Navbar></Navbar>
-            <Container data={characters} displayed = {displayedCharacters}></Container>
+            <Container characters={characters} displayedNames= {displayedCharacterNames}></Container>
         </div>
     )
 }

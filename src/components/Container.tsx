@@ -4,21 +4,23 @@ import getCharacterId from "./Character";
 import PopupEdit from "./Popup";
 
 interface ContainerProps {
-    data: Map<String, Character>;
-    displayed: String[];
+    characters: Map<String, Character>;
+    displayedNames: String[];
 }
 
-const Container: React.FC<ContainerProps> = ({ data , displayed}) => {
+const Container: React.FC<ContainerProps> = ({ characters , displayedNames}) => {
 
     const [displayedCharacters, setDisplayedCharacters] = useState<Character[]>([]);
 
     useEffect(() => {
+        //the displayed characters are not immediately available, but have to be created from the list of displayed names
         if (displayedCharacters.length === 0) {
-            setDisplayedCharacters(displayed.map(c => data.get(c)!!));
+            setDisplayedCharacters(displayedNames.map(c => characters.get(c)!));
         }
-    }, [displayedCharacters.length, displayed, data]);
+    }, [displayedCharacters.length, displayedNames, characters]);
 
-    const changeDisplayedCharacters = (newCharacter: Character, windowIndex: number) => {
+    //a callback function that is passed to the Popup class to change the displayed character
+    const changeDisplayedCharacter = (newCharacter: Character, windowIndex: number) => {
         const updatedCharacters = [...displayedCharacters];
         updatedCharacters[windowIndex] = newCharacter;
         setDisplayedCharacters(updatedCharacters);
@@ -51,11 +53,11 @@ const Container: React.FC<ContainerProps> = ({ data , displayed}) => {
                                     </ul>
                                     {/* Passing the character to the popup for editing */}
                                     <PopupEdit
-                                        characters={data}
-                                        onCharacterChange={(newCharacter) => changeDisplayedCharacters(newCharacter, windowIndex)}
+                                        characters={characters}
+                                        onCharacterChange={(newCharacter) => changeDisplayedCharacter(newCharacter, windowIndex)}
                                         selectedCharacter = {character.name}
-                                        windowIndex={windowIndex}
-                                        displayedCharacters = {displayedCharacters.map(a=>a.name)}
+                                        selectedWindowIndex={windowIndex}
+                                        displayedCharacterNames= {displayedCharacters.map(a=>a.name)}
                                     />
                                 </div>
                             </div>
