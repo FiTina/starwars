@@ -6,7 +6,7 @@ import {Character} from "./components/Character";
 
 const CHARACTERS_KEY = "characters";
 const DISPLAYED_CHARACTERS_KEY = "displayedCharacters";
-const FETCH_COUNT = 4
+const FETCH_COUNT = 23
 
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
     //N.B.: until commented again, the saved changes will be lost after refresh!
     // localStorage.clear();
 
-    const [characters, setCharacters] = useState<Map<String, Character>>(new Map<String, Character>);
+    const [characters, setCharacters] = useState<Map<String, Character>>(new Map<String, Character>());
     const [displayedCharacters, setDisplayedCharacters] = useState<String[]>([]);
 
     useEffect(() => {
@@ -41,6 +41,7 @@ function App() {
                         return response.json();
                     })
                     .catch(() => {
+                        console.log(`could not fetch character ${i}`);
                     })
             );
         }
@@ -52,8 +53,7 @@ function App() {
         setCharacters(resultsMap);
         localStorage.setItem(CHARACTERS_KEY, JSON.stringify(Object.fromEntries(resultsMap)));
 
-        // let displayedNames = ["Yoda", "Darth Vader", "Obi-Wan Kenobi"];
-        let displayedNames = ["Luke Skywalker", "C-3PO", "R2-D2"];
+        let displayedNames = ["Yoda", "Darth Vader", "Obi-Wan Kenobi"];
         setDisplayedCharacters(displayedNames)
         localStorage.setItem(DISPLAYED_CHARACTERS_KEY, JSON.stringify(displayedNames));
     }

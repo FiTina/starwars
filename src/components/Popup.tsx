@@ -77,7 +77,7 @@ const PopupEdit: React.FC<PopupEditProps> = ({characters, onCharacterChange, sel
                                 Array.from(characters.values())
                                     .map((character) => (
                                         <option key={character.name} value={character.name}>
-                                            {character.name} //TODO extract from keyset
+                                            {character.name}
                                         </option>
                                     ))}
                         </select>
