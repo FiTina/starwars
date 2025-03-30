@@ -75,6 +75,11 @@ const PopupEdit: React.FC<PopupEditProps> =
                             <select onChange={handleChange} value={editedCharacter.name}>
                                 {
                                     Array.from(characters.values())
+                                            .filter(
+                                                ch =>
+                                                    //we are allowed to keep the current, but we must not be allowed to pick one of the other two (and thus create a duplicate)
+                                                    ch.name === editedCharacter.name
+                                                    || !displayedCharacterNames.map(name => characters.get(name)).includes(ch))
                                         .map((character) => (
                                             <option key={character.name} value={character.name}>
                                                 {character.name}
